@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1512788210 source:/home/alejandro/EDD_201314735/Tarea/main.c
+	<stdio.h>
+	<stdlib.h>
+	"Lista.h"
+
+1512855639 /home/alejandro/EDD_201314735/Tarea/Lista.h
+
