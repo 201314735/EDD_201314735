@@ -8,6 +8,7 @@
 #include <iostream>
 #include <QScrollBar>
 #include <QDebug>
+#include <QMessageBox>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -26,8 +27,43 @@ int cTurnos;
 int cAviones;
 int cEscritorios;
 int cMantenimiento;
+int idPasajero=1;
 
 bool ok = true;
+
+void agregarPP(colaAviones* colaAvion)
+{
+    colaPasajerosDesabordaje* colaPD = (colaPasajerosDesabordaje*)malloc(sizeof(colaPasajerosDesabordaje));
+    if (colaAvion==NULL)
+    {
+
+    }
+    else{
+
+    for(int i=0;i<colaAvion->pasajeros;i++)
+    {
+        colaPD = (colaPasajerosDesabordaje*)malloc(sizeof(colaPasajerosDesabordaje));
+
+        int mlts = (rand() %(4-1+1))+1;         //# maletas
+        int docs = (rand() %(10-1+1))+1;        //# documentos
+        int registro = (rand() %(3-1+1))+1;     //# turnos registro
+
+        colaPD -> id = idPasajero;
+        colaPD -> maletas = mlts;
+        colaPD -> documentos = docs;
+        colaPD -> tRegistro = registro;
+        agregarPasajeros(colaPD);
+        idPasajero++;
+
+        qDebug()<<"Pasajero "<<   colaPD -> id <<" entra a cola de pasajeros"<<endl;
+        qDebug()<<"Maletas "<< colaPD -> maletas<<endl;
+        qDebug()<<"Documentos "<< colaPD -> documentos<<endl;
+        qDebug()<<"Turnos registro "<< colaPD -> tRegistro<<endl;
+    }
+    }
+}
+
+
 
 void graficar(QScrollArea* s){
 
@@ -51,10 +87,12 @@ void imprimir(){
     fp = fopen("Graphiz.dot","w");
 
     fprintf(fp,"digraph Programa {\n");
-    fprintf(fp,"\tnode [fontcolor=\"blue\", height=0.5, color=\"red\"]\n");
+    fprintf(fp,"\tnode [fontcolor=\"blue\", height=0.5, shape=box, color=\"red\"]\n");
     fprintf(fp,"\tedge [color=\"blue\", dir=fordware]\n");
     fprintf(fp,"\trankdir=LR\n");
     fprintf(fp,"\tcompound=true;\n");
+
+
 
     if(hayCola()==true){
         fprintf(fp,"\n\tsubgraph ColaAviones{\nnode[shape=box]\nedge[dir=both]\n");
@@ -62,25 +100,92 @@ void imprimir(){
         colaAviones* temp = primerAvion;
 
         while(temp!=NULL){
-    if(temp==primerAvion)
-    {
-        fprintf(fp,"\t\"Aviones\" ->\"Tipo: %i, Pasajeros: %i\\nTurnos Desabordaje: %i, Turnos Mantenimiento: %i\"",temp->tipo,temp->pasajeros,temp->desabordaje, temp->mantenimiento);
-        temp=temp->siguiente;
-    }
-    else
-    {
-        fprintf(fp,"->\"Tipo: %i, Pasajeros: %i\\nTurnos Desabordaje: %i, Turnos Mantenimiento: %i\"",temp->tipo,temp->pasajeros,temp->desabordaje, temp->mantenimiento);
-        temp=temp->siguiente;
-    }
+
+            if (temp->desabordaje != 0)
+            {
+
+                if(temp==primerAvion)
+                 {
+                  fprintf(fp,"\t\"Aviones\" ->\"Tipo: %i, Pasajeros: %i\\nTurnos Desabordaje: %i, Turnos Mantenimiento: %i\"",temp->tipo,temp->pasajeros,temp->desabordaje, temp->mantenimiento);
+                  temp=temp->siguiente;
+                 }
+                 else
+                 {
+                  fprintf(fp,"->\"Tipo: %i, Pasajeros: %i\\nTurnos Desabordaje: %i, Turnos Mantenimiento: %i\"",temp->tipo,temp->pasajeros,temp->desabordaje, temp->mantenimiento);
+                  temp=temp->siguiente;
+                 }
+            }
+
+            else
+            {
+
+            colaAviones* avionFuera= (colaAviones*)malloc(sizeof(colaAviones));
+            avionFuera=sacarAvion();
+            qDebug()<<"Cliente "<<avionFuera->tipo<<endl;
+
+            if(avionFuera==NULL)
+            {
+
+            }
+
+            else
+            {
+                agregarPP(avionFuera);
+            }
 
 
-           // fprintf(fp,"\t\"Aviones\" ->\"Avion Nombre: %i\\n %s\"",temp->tipo,"Avion");
+           if(primerAvion==NULL)
+            {
+                temp=NULL;
+                fprintf(fp,"\t\"Cola Aviones Vacia\"");
+
+            }
+            else
+            {
+                temp=primerAvion;
+            }
+            }
 
 
         }
         fprintf(fp,"\n\t}");
-    }else{
+    }
+    else
+    {
         fprintf(fp,"\t\"Cola Aviones Vacia\"");
+    }
+
+
+   if(hayColaPasajeros()==true)
+    {
+       fprintf(fp,"\n\tsubgraph ColaPasajeros{\nnode[shape=box]\nedge[dir=fordware]\n");
+       // ptemp = (colaPasajerosDesabordaje*)malloc(sizeof(colaPasajerosDesabordaje));
+      colaPasajerosDesabordaje* ptemp = cabeza;
+
+        while(ptemp!=NULL)
+        {
+            if(ptemp==cabeza)
+             {
+              fprintf(fp,"\t\"Pasajeros\" ->\"ID: %i, Maletas: %i\\nDocumentos: %i, Turnos Registro: %i\"",ptemp->id,ptemp->maletas,ptemp->documentos, ptemp->tRegistro);
+
+
+              ptemp=ptemp->siguiente;
+
+              qDebug()<<"aaaa "<<ptemp->siguiente->id<<endl;
+             }
+             else
+             {
+              fprintf(fp,"->\"ID: %i, Maletas: %i\\nDocumentos: %i, Turnos Registro: %i\"",ptemp->id,ptemp->maletas,ptemp->documentos, ptemp->tRegistro);
+              ptemp=ptemp->siguiente;
+             }
+       }
+
+        fprintf(fp,"\n\t}");
+    }
+
+    else
+    {
+        fprintf(fp,"\t\"Cola Pasajeros Vacia\"");
     }
 
 
@@ -95,7 +200,7 @@ void agregarAA()
 
     colaAviones* colaAvion = (colaAviones*)malloc(sizeof(colaAviones));
 
-    int tamanio = (rand() %(3-1+1))+1;
+    int tamanio = (rand() %(3-1+1))+1;//tamaño del avion
     int pas;                     //variable numero pasajeros
     int desab;                   //variable numero turnos desabordaje
     int mant;                    //variable numero turnos mantenimiento
@@ -103,7 +208,7 @@ void agregarAA()
     std::string nombre;
 
     if (cAviones != 0)
-        { //tamaño del avion
+        {
 
         if(tamanio == 1)
         {
@@ -178,8 +283,11 @@ void agregarAA()
 
 
 
+
+
 void MainWindow::on_pushButton_clicked()
-{    srand (time(0));
+{
+    srand (time(0));
     ui->lineEdit->setEnabled(false);
     ui->lineEdit_2->setEnabled(false);
     ui->lineEdit_3->setEnabled(false);
@@ -205,15 +313,37 @@ graficar(ui->scrollArea);
 
 void MainWindow::on_pushButton_2_clicked()
 {
-agregarAA();
+    if(cTurnos==0)
+    {
+        QMessageBox::information(
+            this,
+            tr("Práctica1"),
+            tr("Fin de la Simulación.") );
 
-imprimir();
-system("dot -Tpng Graphiz.dot -o Graphiz.png");
-graficar(ui->scrollArea);
+    }
 
+    else{
+        if(primerAvion!=NULL){
+            primerAvion->desabordaje--;
+            agregarAA();
+
+            imprimir();
+            system("dot -Tpng Graphiz.dot -o Graphiz.png");
+            graficar(ui->scrollArea);
+            cTurnos--;
+        }
+        else
+        {
+            qDebug()<<"**************# Hola"<<"******************"<<endl;
+
+            imprimir();
+            system("dot -Tpng Graphiz.dot -o Graphiz.png");
+            graficar(ui->scrollArea);
+            cTurnos--;
+        }
 
 //int a = (rand() %(3-1+1))+1;
 //qDebug()<<"**************#"<<a<<"******************"<<endl;
-
+    }
 }
 

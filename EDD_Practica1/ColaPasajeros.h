@@ -1,9 +1,9 @@
 #ifndef COLAPASAJEROS_H
 #define COLAPASAJEROS_H
+#include "QDebug"
 
 typedef struct colaPasajerosDesabordaje{
     struct colaPasajerosDesabordaje* siguiente;
-    struct colaPasajerosDesabordaje* anterior;
     int id;
     int maletas;
     int documentos;
@@ -16,19 +16,22 @@ colaPasajerosDesabordaje* ultimo = NULL;
 void agregarPasajeros(colaPasajerosDesabordaje* pasajeros)
 {
     pasajeros -> siguiente = NULL;
-    pasajeros -> anterior = NULL;
 
     if(cabeza == NULL)
     {
         cabeza = pasajeros;
         ultimo = cabeza;
+        qDebug ()<< "Cabeza "<<cabeza->id<<endl;
+
     }
 
     else
     {
         ultimo -> siguiente = pasajeros;
-        pasajeros -> anterior = ultimo;
         ultimo = pasajeros;
+        qDebug ()<< "Ultimo "<<ultimo->id<<endl;
+
+
     }
 }
 
@@ -45,8 +48,15 @@ colaPasajerosDesabordaje* sacarPasajeros()
         colaPasajerosDesabordaje* resultado = cabeza;
         cabeza = cabeza -> siguiente;
         resultado -> siguiente = NULL;
-        resultado -> anterior = NULL;
         return resultado;
+    }
+}
+
+bool hayColaPasajeros(){
+    if(cabeza==NULL){
+        return false;
+    }else{
+        return true;
     }
 }
 
