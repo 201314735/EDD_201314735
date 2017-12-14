@@ -16,6 +16,7 @@ SOURCES += main.cpp\
         mainwindow.cpp
 
 HEADERS  += mainwindow.h \
-    ColaAviones.h
+    ColaAviones.h \
+    ColaPasajeros.h
 
 FORMS    += mainwindow.ui

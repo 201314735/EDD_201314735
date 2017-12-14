@@ -1,5 +1,6 @@
 #ifndef COLAAVIONES_H
 #define COLAAVIONES_H
+using namespace std;
 
 typedef struct colaAviones{
     struct colaAviones* siguiente;
@@ -10,43 +11,51 @@ typedef struct colaAviones{
     int mantenimiento;
 }colaAviones;
 
-colaAviones* cabeza = NULL;
-colaAviones* ultimo = NULL;
+colaAviones* primerAvion = NULL;
+colaAviones* ultimoAvion = NULL;
 
 void agregarAvion(colaAviones* avion)
 {
     avion -> siguiente = NULL;
     avion -> anterior = NULL;
 
-    if(cabeza == NULL)
+    if(primerAvion == NULL)
     {
-        cabeza = avion;
-        ultimo = cabeza;
+        primerAvion = avion;
+        ultimoAvion = primerAvion;
     }
 
     else
     {
-        ultimo -> siguiente = avion;
-        avion -> anterior = ultimo;
-        ultimo = avion;
+        ultimoAvion -> siguiente = avion;
+        avion -> anterior = ultimoAvion;
+        ultimoAvion = avion;
+
     }
 }
 
 colaAviones* sacarAvion()
 {
-    if (cabeza == NULL)
+    if (primerAvion == NULL)
     {
         return NULL;
     }
 
     else
     {
-        colaAviones* resultado = cabeza;
-        cabeza = cabeza -> siguiente;
-        cabeza -> anterior = ultimo;
+        colaAviones* resultado = primerAvion;
+        primerAvion = primerAvion -> siguiente;
         resultado -> siguiente = NULL;
         resultado -> anterior = NULL;
         return resultado;
+    }
+}
+
+bool hayCola(){
+    if(primerAvion==NULL){
+        return false;
+    }else{
+        return true;
     }
 }
 
