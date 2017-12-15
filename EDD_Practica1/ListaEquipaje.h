@@ -1,0 +1,4 @@
+#ifndef LISTAEQUIPAJE_H
+#define LISTAEQUIPAJE_H
+
+#endif // LISTAEQUIPAJE_H

@@ -2,6 +2,9 @@
 #include "ui_mainwindow.h"
 #include "ColaAviones.h"
 #include "ColaPasajeros.h"
+#include "ListaEquipaje.h"
+#include "ListaEscritorios.h"
+#include "ListaMantenimiento.h"
 #include <string>
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,6 +31,8 @@ int cAviones;
 int cEscritorios;
 int cMantenimiento;
 int idPasajero=1;
+int letra=65;
+int nMantenimiento=1;
 
 bool ok = true;
 
@@ -188,8 +193,67 @@ void imprimir(){
         fprintf(fp,"\t\"Cola Pasajeros Vacia\"");
     }
 
+   if(hayListaEscritorios()==true)
+    {
+       fprintf(fp,"\n\tsubgraph ListaEscritorios{\nnode[shape=box]\nedge[dir=fordware]\n");
+      listaEscritorios* etemp = primerEscritorio;
+
+        while(etemp!=NULL)
+        {
+            if(etemp==primerEscritorio)
+             {
+              fprintf(fp,"\t\"Escritorios\" ->\"ID: %c\"",etemp->nombre);
 
 
+              etemp=etemp->siguiente;
+
+              qDebug()<<"bbbbb "<<etemp->nombre<<endl;
+             }
+             else
+             {
+              fprintf(fp,"->\"ID: %c\"",etemp->nombre);
+              etemp=etemp->siguiente;
+             }
+       }
+
+        fprintf(fp,"\n\t}");
+    }
+
+    else
+    {
+        fprintf(fp,"\t\"Lista Escritorios Vacia\"");
+    }
+
+   if(hayListaMantenimiento()==true)
+    {
+       fprintf(fp,"\n\tsubgraph ListaMantenimiento{\nnode[shape=box]\nedge[dir=fordware]\n");
+      listaMantenimiento* mtemp = primerMantenimiento;
+
+        while(mtemp!=NULL)
+        {
+            if(mtemp==primerMantenimiento)
+             {
+              fprintf(fp,"\t\"Mantenimiento\" ->\"Estación: %i\"",mtemp->numero);
+
+
+              mtemp=mtemp->siguiente;
+
+              qDebug()<<"cccc "<<mtemp->numero<<endl;
+             }
+             else
+             {
+              fprintf(fp,"->\"Estación: %i\"",mtemp->numero);
+              mtemp=mtemp->siguiente;
+             }
+       }
+
+        fprintf(fp,"\n\t}");
+    }
+
+    else
+    {
+        fprintf(fp,"\t\"Lista Mantenimiento Vacia\"");
+    }
 
 fprintf(fp,"\n}");
 fclose(fp);
@@ -282,7 +346,50 @@ void agregarAA()
 }
 
 
+void agregarEE()
+{
 
+    listaEscritorios* lEscritorios= (listaEscritorios*)malloc(sizeof(listaEscritorios));
+
+    while (cEscritorios != 0)
+        {
+            char nEscritorio = letra;
+            lEscritorios = (listaEscritorios*)malloc(sizeof(listaEscritorios));
+
+            lEscritorios -> nombre = nEscritorio;
+            agregarEscritorio(lEscritorios);
+
+           qDebug()<<"Escritorio "<< lEscritorios->nombre<<" entra a cola de aviones"<<endl;
+       //     qDebug()<<"Pasajeros "<< colaAvion->pasajeros<<endl;
+       //     qDebug()<<"Turnos desabordaje "<< colaAvion->desabordaje<<endl;
+       //     qDebug()<<"Turnos mantenimiento "<< colaAvion->mantenimiento<<endl;
+            letra++;
+            cEscritorios = cEscritorios -1;
+
+        }
+}
+
+void agregarMM()
+{
+
+    listaMantenimiento* lMantenimiento= (listaMantenimiento*)malloc(sizeof(listaMantenimiento));
+
+    while (cMantenimiento != 0)
+        {
+            lMantenimiento = (listaMantenimiento*)malloc(sizeof(listaMantenimiento));
+
+            lMantenimiento -> numero = nMantenimiento;
+            agregarMantenimiento(lMantenimiento);
+
+           qDebug()<<"Mantenimiento "<< lMantenimiento->numero<<endl;
+       //     qDebug()<<"Pasajeros "<< colaAvion->pasajeros<<endl;
+       //     qDebug()<<"Turnos desabordaje "<< colaAvion->desabordaje<<endl;
+       //     qDebug()<<"Turnos mantenimiento "<< colaAvion->mantenimiento<<endl;
+            nMantenimiento++;
+            cMantenimiento = cMantenimiento -1;
+
+        }
+}
 
 
 void MainWindow::on_pushButton_clicked()
@@ -300,8 +407,8 @@ void MainWindow::on_pushButton_clicked()
     cMantenimiento = ui->lineEdit_4->text().toInt(&ok,10);
 
     agregarAA();
-
-
+    agregarEE();
+    agregarMM();
 
 
 //qDebug()<<"**************# Aviones"<<cAviones<<"******************"<<endl;
