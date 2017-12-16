@@ -2,12 +2,6 @@
 #define LISTAESCRITORIOS_H
 
 #endif // LISTAESCRITORIOS_H
-typedef struct listaEscritorios{
-    struct listaEscritorios* siguiente;
-    struct listaEscritorios* anterior;
-    char nombre;
-}listaEscritorios;
-
 
 typedef struct colaEscritorios{
     struct colaEscritorios* siguiente;
@@ -20,10 +14,60 @@ typedef struct colaEscritorios{
 colaEscritorios* primeroCola = NULL;
 colaEscritorios* ultimoCola = NULL;
 
+
+
+void agregarPasajerosEscritorios(colaEscritorios* pasajeros)
+{
+    int contadorPasajeros;
+    bool acceso = true;
+
+  /*  while(pasajeros!=NULL)
+    {
+        if(pasajeros==primeroCola)
+        {
+            contadorPasajeros++;
+            pasajeros=pasajeros->siguiente;
+        }
+
+        else
+        {
+            contadorPasajeros++;
+            pasajeros=pasajeros->siguiente;
+        )
+    }*/
+
+    pasajeros -> siguiente = NULL;
+    if(contadorPasajeros !=10){
+
+    if(primeroCola == NULL)
+    {
+        primeroCola = pasajeros;
+        ultimoCola = primeroCola;
+        contadorPasajeros++;
+    }
+
+    else
+    {
+        ultimoCola -> siguiente = pasajeros;
+        ultimoCola = pasajeros;
+        contadorPasajeros++;
+    }
+    }
+    else
+    {
+acceso = false;
+    }
+}
+
+typedef struct listaEscritorios{
+    struct listaEscritorios* siguiente;
+    struct listaEscritorios* anterior;
+    char nombre;
+    colaEscritorios* cola;
+}listaEscritorios;
+
 listaEscritorios* primerEscritorio = NULL;
 listaEscritorios* ultimoEscritorio = NULL;
-
-
 
 void agregarEscritorio(listaEscritorios* escritorio)
 {
@@ -54,45 +98,3 @@ bool hayListaEscritorios(){
 }
 
 
-void agregarPasajerosEscritorios(colaEscritorios* pasajeros)
-{
-    int contadorPasajeros;
-
-  /*  while(pasajeros!=NULL)
-    {
-        if(pasajeros==primeroCola)
-        {
-            contadorPasajeros++;
-            pasajeros=pasajeros->siguiente;
-        }
-
-        else
-        {
-            contadorPasajeros++;
-            pasajeros=pasajeros->siguiente;
-        )
-    }*/
-
-
-    pasajeros -> siguiente = NULL;
-    if(contadorPasajeros !=10){
-
-    if(primeroCola == NULL)
-    {
-        primeroCola = pasajeros;
-        ultimoCola = primeroCola;
-        contadorPasajeros++;
-    }
-
-    else
-    {
-        ultimoCola -> siguiente = pasajeros;
-        ultimoCola = pasajeros;
-        contadorPasajeros++;
-    }
-    }
-    else
-    {
-
-    }
-}

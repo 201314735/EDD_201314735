@@ -6,6 +6,9 @@
 typedef struct listaMantenimiento{
     struct listaMantenimiento* siguiente;
     int numero;
+    int tipo;
+    int turnos;
+    char ocupado = 'L';
 }listaMantenimiento;
 
 listaMantenimiento* primerMantenimiento = NULL;
@@ -28,6 +31,53 @@ void agregarMantenimiento(listaMantenimiento* mantenimiento)
 
     }
 }
+
+listaMantenimiento* agregar(listaMantenimiento* mantenimiento)
+{
+    listaMantenimiento* actual = new listaMantenimiento();
+    actual = primerMantenimiento;
+
+    if(actual!=NULL){
+
+    if(actual->ocupado == 'L')
+    {
+        actual ->tipo = mantenimiento->tipo;
+        actual->turnos = mantenimiento->turnos;
+        actual->ocupado='O';
+        return actual;
+    }
+
+    else
+    {
+        actual = actual->siguiente;
+
+    }
+    }
+    else{}
+}
+listaMantenimiento* sacar()
+{
+    listaMantenimiento* actual = new listaMantenimiento();
+    actual = primerMantenimiento;
+
+    if(actual!=NULL){
+
+    if(actual->ocupado == 'L')
+    {
+        actual->ocupado='O';
+        return actual;
+    }
+
+    else
+    {
+        actual = actual->siguiente;
+
+    }
+    }
+    else{}
+}
+
+
 
 bool hayListaMantenimiento(){
     if(primerMantenimiento==NULL){

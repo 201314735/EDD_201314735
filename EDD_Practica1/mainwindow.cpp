@@ -92,6 +92,30 @@ void agregarAM(colaAviones* colaAvion)
     }
 }
 
+void agregarM(colaAvionMantenimiento* colaAvion)
+{
+    listaMantenimiento* colaM = (listaMantenimiento*)malloc(sizeof(listaMantenimiento));
+    if (colaAvion==NULL)
+    {
+
+    }
+    else{
+        colaM = (listaMantenimiento*)malloc(sizeof(listaMantenimiento));
+
+        int tipom = colaAvion -> tipo;
+        int tmant = colaAvion -> mantenimiento;
+
+        colaM -> tipo = tipom;
+        colaM -> turnos = tmant;
+    //    colaM -> ocupado = 'O';
+
+        agregar(colaM);
+
+        qDebug()<<"Avion "<<   colaM -> tipo <<" entra a cola de mantenimiento"<<endl;
+
+    }
+}
+
 
 void graficar(QScrollArea* s){
 
@@ -160,6 +184,7 @@ void imprimir(){
             {
                 agregarPP(avionFuera);
                 agregarAM(avionFuera);
+
             }
 
 
@@ -248,28 +273,60 @@ void imprimir(){
         fprintf(fp,"\t\"Lista Escritorios Vacia\"");
     }
 
+   if(hayListaEquipaje()==true)
+    {
+       fprintf(fp,"\n\tsubgraph ListaEquipaje{\nnode[shape=box]\nedge[dir=both]\n");
+      listaEscritorios* etemp = primerEscritorio;
+
+        while(etemp!=NULL)
+        {
+            if(etemp==primerEscritorio)
+             {
+              fprintf(fp,"\t\"Escritorios\" ->\"ID: %c\"",etemp->nombre);
+
+              qDebug()<<"bbbbb "<<etemp->nombre<<endl;
+
+              etemp=etemp->siguiente;
+
+             }
+             else
+             {
+              fprintf(fp,"->\"ID: %c\"",etemp->nombre);
+              etemp=etemp->siguiente;
+             }
+       }
+
+        fprintf(fp,"\n\t}");
+    }
+
+    else
+    {
+        fprintf(fp,"\t\"Lista Equipaje Vacia\"");
+    }
+
    if(hayListaMantenimiento()==true)
     {
        fprintf(fp,"\n\tsubgraph ListaMantenimiento{\nnode[shape=box]\nedge[dir=fordware]\n");
       listaMantenimiento* mtemp = primerMantenimiento;
 
-        while(mtemp!=NULL)
-        {
-            if(mtemp==primerMantenimiento)
-             {
-              fprintf(fp,"\t\"Mantenimiento\" ->\"Estación: %i\"",mtemp->numero);
 
+          while(mtemp!=NULL)
+          {
+              if(mtemp==primerMantenimiento)
+               {
+                fprintf(fp,"\t\"Mantenimiento\" ->\"Estación: %i\"",mtemp->numero);
 
+                qDebug()<<"cccc "<<mtemp->numero<<endl;
+                mtemp=mtemp->siguiente;
+               }
+               else
+               {
+                fprintf(fp,"->\"Estación: %i\"",mtemp->numero);
+                mtemp=mtemp->siguiente;
+               }
 
-              qDebug()<<"cccc "<<mtemp->numero<<endl;
-              mtemp=mtemp->siguiente;
-             }
-             else
-             {
-              fprintf(fp,"->\"Estación: %i\"",mtemp->numero);
-              mtemp=mtemp->siguiente;
-             }
-       }
+      }
+
 
         fprintf(fp,"\n\t}");
     }
