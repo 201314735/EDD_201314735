@@ -8,8 +8,21 @@ typedef struct listaEscritorios{
     char nombre;
 }listaEscritorios;
 
+
+typedef struct colaEscritorios{
+    struct colaEscritorios* siguiente;
+  //  int id;
+   // int maletas;
+   // int documentos;
+   // int tRegistro;
+}colaEscritorios;
+
+colaEscritorios* primeroCola = NULL;
+colaEscritorios* ultimoCola = NULL;
+
 listaEscritorios* primerEscritorio = NULL;
 listaEscritorios* ultimoEscritorio = NULL;
+
 
 
 void agregarEscritorio(listaEscritorios* escritorio)
@@ -37,5 +50,49 @@ bool hayListaEscritorios(){
         return false;
     }else{
         return true;
+    }
+}
+
+
+void agregarPasajerosEscritorios(colaEscritorios* pasajeros)
+{
+    int contadorPasajeros;
+
+  /*  while(pasajeros!=NULL)
+    {
+        if(pasajeros==primeroCola)
+        {
+            contadorPasajeros++;
+            pasajeros=pasajeros->siguiente;
+        }
+
+        else
+        {
+            contadorPasajeros++;
+            pasajeros=pasajeros->siguiente;
+        )
+    }*/
+
+
+    pasajeros -> siguiente = NULL;
+    if(contadorPasajeros !=10){
+
+    if(primeroCola == NULL)
+    {
+        primeroCola = pasajeros;
+        ultimoCola = primeroCola;
+        contadorPasajeros++;
+    }
+
+    else
+    {
+        ultimoCola -> siguiente = pasajeros;
+        ultimoCola = pasajeros;
+        contadorPasajeros++;
+    }
+    }
+    else
+    {
+
     }
 }

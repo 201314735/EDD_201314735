@@ -20,6 +20,7 @@ HEADERS  += mainwindow.h \
     ColaPasajeros.h \
     ListaEscritorios.h \
     ListaMantenimiento.h \
-    ListaEquipaje.h
+    ListaEquipaje.h \
+    colaAvionMantenimiento.h
 
 FORMS    += mainwindow.ui

@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "ColaAviones.h"
+#include "colaAvionMantenimiento.h"
 #include "ColaPasajeros.h"
 #include "ListaEquipaje.h"
 #include "ListaEscritorios.h"
@@ -69,6 +70,28 @@ void agregarPP(colaAviones* colaAvion)
 }
 
 
+void agregarAM(colaAviones* colaAvion)
+{
+    colaAvionMantenimiento* colaAM = (colaAvionMantenimiento*)malloc(sizeof(colaAvionMantenimiento));
+    if (colaAvion==NULL)
+    {
+
+    }
+    else{
+        colaAM = (colaAvionMantenimiento*)malloc(sizeof(colaAvionMantenimiento));
+
+        int tipom = colaAvion -> tipo;
+        int tmant = colaAvion -> mantenimiento;
+
+        colaAM -> tipo = tipom;
+        colaAM -> mantenimiento = tmant;
+        agregarAvionMantenimiento(colaAM);
+
+        qDebug()<<"Avion "<<   colaAM -> tipo <<" entra a cola de mantenimiento"<<endl;
+
+    }
+}
+
 
 void graficar(QScrollArea* s){
 
@@ -136,6 +159,7 @@ void imprimir(){
             else
             {
                 agregarPP(avionFuera);
+                agregarAM(avionFuera);
             }
 
 
@@ -174,9 +198,9 @@ void imprimir(){
               fprintf(fp,"\t\"Pasajeros\" ->\"ID: %i, Maletas: %i\\nDocumentos: %i, Turnos Registro: %i\"",ptemp->id,ptemp->maletas,ptemp->documentos, ptemp->tRegistro);
 
 
+              qDebug()<<"aaaa "<<ptemp->id<<endl;
               ptemp=ptemp->siguiente;
 
-              qDebug()<<"aaaa "<<ptemp->siguiente->id<<endl;
              }
              else
              {
@@ -195,7 +219,7 @@ void imprimir(){
 
    if(hayListaEscritorios()==true)
     {
-       fprintf(fp,"\n\tsubgraph ListaEscritorios{\nnode[shape=box]\nedge[dir=fordware]\n");
+       fprintf(fp,"\n\tsubgraph ListaEscritorios{\nnode[shape=box]\nedge[dir=both]\n");
       listaEscritorios* etemp = primerEscritorio;
 
         while(etemp!=NULL)
@@ -204,10 +228,10 @@ void imprimir(){
              {
               fprintf(fp,"\t\"Escritorios\" ->\"ID: %c\"",etemp->nombre);
 
+              qDebug()<<"bbbbb "<<etemp->nombre<<endl;
 
               etemp=etemp->siguiente;
 
-              qDebug()<<"bbbbb "<<etemp->nombre<<endl;
              }
              else
              {
@@ -236,9 +260,9 @@ void imprimir(){
               fprintf(fp,"\t\"Mantenimiento\" ->\"Estación: %i\"",mtemp->numero);
 
 
-              mtemp=mtemp->siguiente;
 
               qDebug()<<"cccc "<<mtemp->numero<<endl;
+              mtemp=mtemp->siguiente;
              }
              else
              {
@@ -254,6 +278,39 @@ void imprimir(){
     {
         fprintf(fp,"\t\"Lista Mantenimiento Vacia\"");
     }
+
+    if(hayColaMantenimiento()==true)
+        {
+           fprintf(fp,"\n\tsubgraph ColaAvionesMantenimiento{\nnode[shape=box]\nedge[dir=fordware]\n");
+
+          colaAvionMantenimiento* amtemp = primerAvionMantenimiento;
+
+            while(amtemp!=NULL)
+            {
+                if(amtemp==primerAvionMantenimiento)
+                 {
+                  fprintf(fp,"\t\"ColaMantenimiento\" ->\"Tipo: %i, Turnos Mantenimiento: %i\"",amtemp->tipo,amtemp->mantenimiento);
+
+
+                  qDebug()<<"mant "<<amtemp->mantenimiento<<endl;
+                  amtemp=amtemp->siguiente;
+
+                 }
+                 else
+                 {
+                  fprintf(fp,"->\"Tipo: %i, Turnos Mantenimiento: %i\"",amtemp->tipo,amtemp->mantenimiento);
+                  amtemp=amtemp->siguiente;
+                 }
+           }
+
+            fprintf(fp,"\n\t}");
+        }
+
+        else
+        {
+            fprintf(fp,"\t\"Cola Mantenimiento Vacia\"");
+        }
+
 
 fprintf(fp,"\n}");
 fclose(fp);
