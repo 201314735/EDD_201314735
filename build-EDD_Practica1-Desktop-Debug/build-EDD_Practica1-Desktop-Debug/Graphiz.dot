@@ -1,0 +1,32 @@
+digraph Programa {
+	node [fontcolor="blue", height=0.5, shape=box, color="red"]
+	edge [color="blue", dir=fordware]
+	rankdir=LR
+	compound=true;
+
+	subgraph ColaAviones{
+node[shape=box]
+edge[dir=both]
+	"Aviones" ->"Tipo: 2, Pasajeros: 16\nTurnos Desabordaje: 1, Turnos Mantenimiento: 4"->"Tipo: 3, Pasajeros: 36\nTurnos Desabordaje: 3, Turnos Mantenimiento: 4"->"Tipo: 2, Pasajeros: 19\nTurnos Desabordaje: 2, Turnos Mantenimiento: 2"->"Tipo: 3, Pasajeros: 30\nTurnos Desabordaje: 3, Turnos Mantenimiento: 5"
+	}
+	subgraph ColaPasajeros{
+node[shape=box]
+edge[dir=fordware]
+	"Pasajeros" ->"ID: 1, Maletas: 1\nDocumentos: 8, Turnos Registro: 2"->"ID: 2, Maletas: 4\nDocumentos: 7, Turnos Registro: 2"->"ID: 3, Maletas: 4\nDocumentos: 4, Turnos Registro: 1"->"ID: 4, Maletas: 3\nDocumentos: 4, Turnos Registro: 3"->"ID: 5, Maletas: 2\nDocumentos: 5, Turnos Registro: 3"->"ID: 6, Maletas: 4\nDocumentos: 4, Turnos Registro: 1"->"ID: 7, Maletas: 1\nDocumentos: 5, Turnos Registro: 2"->"ID: 8, Maletas: 1\nDocumentos: 6, Turnos Registro: 1"->"ID: 9, Maletas: 1\nDocumentos: 6, Turnos Registro: 1"->"ID: 10, Maletas: 2\nDocumentos: 1, Turnos Registro: 1"->"ID: 11, Maletas: 1\nDocumentos: 1, Turnos Registro: 2"->"ID: 12, Maletas: 1\nDocumentos: 10, Turnos Registro: 3"->"ID: 13, Maletas: 2\nDocumentos: 5, Turnos Registro: 3"->"ID: 14, Maletas: 3\nDocumentos: 5, Turnos Registro: 2"->"ID: 15, Maletas: 4\nDocumentos: 4, Turnos Registro: 3"->"ID: 16, Maletas: 2\nDocumentos: 2, Turnos Registro: 3"->"ID: 17, Maletas: 4\nDocumentos: 2, Turnos Registro: 2"->"ID: 18, Maletas: 3\nDocumentos: 10, Turnos Registro: 1"->"ID: 19, Maletas: 1\nDocumentos: 10, Turnos Registro: 1"->"ID: 20, Maletas: 2\nDocumentos: 5, Turnos Registro: 3"->"ID: 21, Maletas: 3\nDocumentos: 10, Turnos Registro: 2"->"ID: 22, Maletas: 3\nDocumentos: 4, Turnos Registro: 2"->"ID: 23, Maletas: 1\nDocumentos: 9, Turnos Registro: 1"->"ID: 24, Maletas: 1\nDocumentos: 7, Turnos Registro: 1"->"ID: 25, Maletas: 2\nDocumentos: 1, Turnos Registro: 2"->"ID: 26, Maletas: 2\nDocumentos: 4, Turnos Registro: 3"->"ID: 27, Maletas: 2\nDocumentos: 10, Turnos Registro: 3"->"ID: 28, Maletas: 2\nDocumentos: 7, Turnos Registro: 2"->"ID: 29, Maletas: 1\nDocumentos: 10, Turnos Registro: 3"->"ID: 30, Maletas: 2\nDocumentos: 8, Turnos Registro: 1"->"ID: 31, Maletas: 3\nDocumentos: 1, Turnos Registro: 3"->"ID: 32, Maletas: 2\nDocumentos: 10, Turnos Registro: 3"->"ID: 33, Maletas: 2\nDocumentos: 4, Turnos Registro: 3"->"ID: 34, Maletas: 3\nDocumentos: 10, Turnos Registro: 2"->"ID: 35, Maletas: 2\nDocumentos: 5, Turnos Registro: 1"->"ID: 36, Maletas: 2\nDocumentos: 4, Turnos Registro: 3"->"ID: 37, Maletas: 4\nDocumentos: 9, Turnos Registro: 2"->"ID: 38, Maletas: 2\nDocumentos: 10, Turnos Registro: 2"->"ID: 39, Maletas: 2\nDocumentos: 6, Turnos Registro: 1"->"ID: 40, Maletas: 3\nDocumentos: 3, Turnos Registro: 2"->"ID: 41, Maletas: 3\nDocumentos: 8, Turnos Registro: 1"->"ID: 42, Maletas: 4\nDocumentos: 1, Turnos Registro: 3"->"ID: 43, Maletas: 3\nDocumentos: 7, Turnos Registro: 2"->"ID: 44, Maletas: 1\nDocumentos: 5, Turnos Registro: 2"->"ID: 45, Maletas: 2\nDocumentos: 8, Turnos Registro: 2"->"ID: 46, Maletas: 4\nDocumentos: 3, Turnos Registro: 3"->"ID: 47, Maletas: 4\nDocumentos: 9, Turnos Registro: 3"->"ID: 48, Maletas: 3\nDocumentos: 4, Turnos Registro: 2"->"ID: 49, Maletas: 4\nDocumentos: 1, Turnos Registro: 1"->"ID: 50, Maletas: 2\nDocumentos: 6, Turnos Registro: 2"->"ID: 51, Maletas: 2\nDocumentos: 10, Turnos Registro: 2"->"ID: 52, Maletas: 3\nDocumentos: 7, Turnos Registro: 2"->"ID: 53, Maletas: 4\nDocumentos: 1, Turnos Registro: 1"->"ID: 54, Maletas: 4\nDocumentos: 9, Turnos Registro: 1"->"ID: 55, Maletas: 3\nDocumentos: 9, Turnos Registro: 1"->"ID: 56, Maletas: 3\nDocumentos: 10, Turnos Registro: 1"->"ID: 57, Maletas: 1\nDocumentos: 9, Turnos Registro: 2"->"ID: 58, Maletas: 1\nDocumentos: 5, Turnos Registro: 1"->"ID: 59, Maletas: 4\nDocumentos: 6, Turnos Registro: 2"->"ID: 60, Maletas: 3\nDocumentos: 10, Turnos Registro: 2"
+	}
+	subgraph ListaEscritorios{
+node[shape=box]
+edge[dir=both]
+	"Escritorios" ->"ID: A"->"ID: B"
+	}	"Lista Equipaje Vacia"
+	subgraph ListaMantenimiento{
+node[shape=box]
+edge[dir=fordware]
+	"Mantenimiento" ->"Estación: 1"
+	}
+	subgraph ColaAvionesMantenimiento{
+node[shape=box]
+edge[dir=fordware]
+	"ColaMantenimiento" ->"Tipo: 2, Turnos Mantenimiento: 2"->"Tipo: 3, Turnos Mantenimiento: 4"
+	}
+}
